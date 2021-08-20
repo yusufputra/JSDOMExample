@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <h3>Input Buku</h3>
+      <div>
+        <span>Book Title :</span>
+        <input id="judul" onchange="change()" />
+      </div>
+      <div>
+        <span>Book Desc :</span>
+        <input id="deskripsi" />
+      </div>
+      <div><button type="button" onclick="submitted()">Submit</button></div>
+    </form>
+    <h3>List Buku</h3>
+    <div id="booklist"></div>
+  </body>
+  <script src="./BookList.js"></script>
+  <script>
+    let list = new BookList();
+    list.addBookList("doraemon", "ini buku doraemon");
+    list.addBookList("sinchan", "ini buku sinchan");
+    let e = document.createElement("div");
+    let container = document.getElementById("booklist");
+    load();
+    function load() {
+      for (let index = 0; index < list.getBookList().length; index++) {
+        console.log(list.getBookList()[index]);
+        const element = list.getBookList();
+
+        e.innerHTML =
+          "<div class='isi'>" +
+          (index + 1) +
+          " " +
+          list.getBookList()[index].title +
+          " | " +
+          list.getBookList()[index].desc;
+        ("</div>");
+        document.getElementById("booklist").appendChild(e.firstChild);
+      }
+    }
+
+    function submitted() {
+      list.addBookList(
+        document.getElementById("judul").value,
+        document.getElementById("deskripsi").value
+      );
+      container.innerHTML = "";
+      load();
+    }
+    function change() {
+      console.log("changed");
+    }
+  </script>
+</html>

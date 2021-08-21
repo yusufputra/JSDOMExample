@@ -17,7 +17,12 @@
         <span>Book Desc :</span>
         <input id="deskripsi" />
       </div>
-      <div><button type="button" onclick="submitted()">Submit</button></div>
+      <div>
+        <button type="button" id="btnSubmit" onclick="submitted()">
+          Submit
+        </button>
+      </div>
+      <!-- add id="btnSubmit"-->
     </form>
     <h3>List Buku</h3>
     <div id="booklist"></div>
@@ -25,12 +30,13 @@
   <script src="./BookList.js"></script>
   <script>
     let list = new BookList();
-    list.addBookList("doraemon", "ini buku doraemon");
-    list.addBookList("sinchan", "ini buku sinchan");
+    // list.addBookList("doraemon", "ini buku doraemon");
+    // list.addBookList("sinchan", "ini buku sinchan");
     let e = document.createElement("div");
     let container = document.getElementById("booklist");
     load();
     function load() {
+      console.log("render load");
       for (let index = 0; index < list.getBookList().length; index++) {
         console.log(list.getBookList()[index]);
         const element = list.getBookList();
@@ -47,11 +53,20 @@
       }
     }
 
-    function submitted() {
-      list.addBookList(
-        document.getElementById("judul").value,
-        document.getElementById("deskripsi").value
-      );
+    async function submitted() { // tambahkan identifier async
+      await list // await digunakan untuk menunggu proses tersebut selesai baru menjalankan proses setelahnya
+        .addBookList(
+          document.getElementById("judul").value,
+          document.getElementById("deskripsi").value
+        )
+        .then(
+          (value) => {
+            console.log(value);
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
       container.innerHTML = "";
       load();
     }
